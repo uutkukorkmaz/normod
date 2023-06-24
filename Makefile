@@ -10,11 +10,12 @@ SEPERATOR = "\\033[90m...........................................\\033[0m"
 NEW_LINE = "\\n"
 
 
-help: ## This help.
+help:
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  \033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 .DEFAULT_GOAL := help
 
+#region Defines
 define successLine
 	echo "$(SUCCESS) $(1)"
 endef
@@ -35,18 +36,6 @@ define seperatorLine
 	@echo "$(NEW_LINE)$(SEPERATOR)$(NEW_LINE) "
 endef
 
-build:
-	$(call infoLine, "Checking requirements...")
-	$(call check-requirements)
-	@make install-requirements
-	$(call seperatorLine)
-	$(call infoLine, "Building case study...")
-	$(call create-env-files)
-	$(call install-composer-dependencies)
-	$(call build-containers)
-	$(call seperatorLine)
-	@echo "$(SUCCESS) Done. You may reach the swagger documentation at http://localhost:$(NGINX_PORT)/api/documentation"
-
 define check-requirements
 	@which php > /dev/null || (echo "$(ERROR) PHP is not installed. Please install PHP first.")
 	@which composer > /dev/null || (echo "$(ERROR) Composer is not installed. Please install Composer first.")
@@ -55,17 +44,6 @@ define check-requirements
 	@which sed > /dev/null || (echo "$(ERROR) sed is not installed. Please install sed first.")
 	$(call infoLine, "All requirements are met")
 endef
-
-install-requirements: ## Install all requirements
-	@which brew > /dev/null || (echo "$(ERROR) brew is not installed. Please install brew first." && exit 1001)
-	$(call infoLine, "Installing requirements...")
-	$(call install-php)
-	$(call install-composer)
-	$(call install-docker)
-	$(call install-docker-compose)
-	$(call install-sed)
-	$(call seperatorLine)
-	$(call infoLine, "All requirements are met")
 
 define install-php
 	$(call infoLine, "Checking PHP...")
@@ -145,3 +123,30 @@ define build-containers
 	$(call infoLine, "Building Docker containers...")
 	@docker-compose up -d --build
 endef
+#endregion
+
+
+#region Targets
+build: ## Build the project
+	$(call infoLine, "Checking requirements...")
+	$(call check-requirements)
+	@make install-requirements
+	$(call seperatorLine)
+	$(call infoLine, "Building case study...")
+	$(call create-env-files)
+	$(call install-composer-dependencies)
+	$(call build-containers)
+	$(call seperatorLine)
+	@echo "$(SUCCESS) Done. You may reach the swagger documentation at http://localhost:$(NGINX_PORT)/api/documentation"
+
+install-requirements: ## Install all requirements
+	@which brew > /dev/null || (echo "$(ERROR) brew is not installed. Please install brew first." && exit 1001)
+	$(call infoLine, "Installing requirements...")
+	$(call install-php)
+	$(call install-composer)
+	$(call install-docker)
+	$(call install-docker-compose)
+	$(call install-sed)
+	$(call seperatorLine)
+	$(call infoLine, "All requirements are met")
+#endregion
