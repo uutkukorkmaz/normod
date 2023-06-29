@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('price');
             $table->unsignedBigInteger('cost');
             $table->string('currency');
+            $table->unsignedInteger('production_buffer')->default(2);
             $table->timestamps();
         });
     }

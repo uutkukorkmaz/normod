@@ -19,7 +19,8 @@ class ProductFactory extends Factory
         return [
             'price' => $this->faker->randomFloat(0, 100, pow(100,3)),
             'cost' => $this->faker->randomFloat(0, 100, pow(100,2)),
-            'currency' => $this->faker->randomElement(array_keys(config('currency')))
+            'currency' => $this->faker->randomElement(array_keys(config('currency'))),
+            'production_buffer' => $this->faker->numberBetween(1, 5),
         ];
     }
 }

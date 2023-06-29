@@ -13,6 +13,7 @@ class Product extends Model
         'price',
         'cost',
         'currency',
+        'production_buffer',
     ];
 
     protected $casts = [
