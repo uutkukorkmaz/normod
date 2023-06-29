@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/health', function () {
+
+    return [
+        'db' => DB::connection()->getPdo()->getAttribute(PDO::ATTR_DRIVER_NAME),
+        'redis' => \Illuminate\Support\Facades\Redis::connection()->ping(),
+    ];
 });
