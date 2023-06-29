@@ -12,7 +12,7 @@ services:
             - '.:/app'
             - './docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
         ports:
-            - '${NGINX_PORT}:80'
+            - '${NGINX_PORT:-80}:80'
         networks:
             - app
     php-fpm:
@@ -29,14 +29,14 @@ services:
         container_name: "${SERVICE_NAME}_mysql"
         restart: always
         environment:
-            MYSQL_DATABASE: "${MYSQL_DATABASE}"
-            MYSQL_USER: "${MYSQL_USER}"
-            MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+            MYSQL_DATABASE: "${MYSQL_DATABASE:-normod}"
+            MYSQL_USER: "${MYSQL_USER:-normod}"
+            MYSQL_PASSWORD: "${MYSQL_PASSWORD:-normod}"
             MYSQL_ROOT_PASSWORD: "root"
         volumes:
             - mysql_data:/var/lib/mysql
         ports:
-            - '${MYSQL_PORT}:3306'
+            - '${MYSQL_PORT:-3306}:3306'
         networks:
             - app
     redis:
@@ -45,7 +45,7 @@ services:
         restart: always
         command: redis-server --appendonly yes
         ports:
-            - '${REDIS_PORT}:6379'
+            - '${REDIS_PORT:-6379}:6379'
         networks:
             - app
         volumes:
