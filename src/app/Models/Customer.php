@@ -16,4 +16,9 @@ class Customer extends Model
         'phone',
         'password',
     ];
+
+    public function address()
+    {
+        return $this->hasMany(Address::class);
+    }
 }
