@@ -10,22 +10,22 @@ services:
         working_dir: /app
         volumes:
             - '.:/app'
-            - './docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
+            - './infrastructure/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
         ports:
             - '${NGINX_PORT:-80}:80'
         networks:
             - app
     php-fpm:
-        build: 'docker/php-fpm'
+        build: 'infrastructure/php-fpm'
         container_name: "${SERVICE_NAME}_source"
         working_dir: /app
         volumes:
             - '.:/app'
-            - './docker/php-fpm/php-ini-overrides.ini:/etc/php/8.1/fpm/conf.d/99-overrides.ini'
+            - './infrastructure/php-fpm/php-ini-overrides.ini:/etc/php/8.1/fpm/conf.d/99-overrides.ini'
         networks:
             - app
     mysql:
-        build: 'docker/mysql'
+        build: 'infrastructure/mysql'
         container_name: "${SERVICE_NAME}_mysql"
         restart: always
         environment:
@@ -51,12 +51,12 @@ services:
         volumes:
             - redis_data:/data
     supervisor:
-        build: 'docker/supervisor'
+        build: 'infrastructure/supervisor'
         working_dir: /app
         container_name: "${SERVICE_NAME}_supervisor"
         volumes:
             - '.:/app'
-            - './docker/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf'
+            - './infrastructure/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf'
         networks:
             - app
 
