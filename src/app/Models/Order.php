@@ -19,6 +19,10 @@ class Order extends Model
         'invoice_number',
     ];
 
+    protected $casts = [
+        'status' => OrderStatus::class
+    ];
+
     public static function boot()
     {
         parent::boot();
@@ -50,6 +54,20 @@ class Order extends Model
     public function billingAddress()
     {
         return $this->belongsTo(Address::class, 'billing_address_id');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    public function packs(){
+        return $this->hasMany(Pack::class);
     }
 
     private function createDemoInvoiceNumber()

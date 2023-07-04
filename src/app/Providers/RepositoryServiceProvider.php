@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\CustomerRepository;
+use App\Repositories\Contracts\OrderRepository;
 use App\Repositories\Eloquent\CustomerRepositoryEloquent;
+use App\Repositories\Eloquent\OrderRepositoryEloquent;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -17,6 +19,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             CustomerRepository::class,
             CustomerRepositoryEloquent::class
+        );
+
+        $this->app->bind(
+            OrderRepository::class,
+            OrderRepositoryEloquent::class
         );
     }
 

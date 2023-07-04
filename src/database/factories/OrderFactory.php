@@ -25,4 +25,15 @@ class OrderFactory extends Factory
             'billing_address_id' => $customer->addresses->random()->id,
         ];
     }
+
+    public function withCustomerAddress(Customer $customer)
+    {
+        return $this->state(function (array $attributes) use ($customer) {
+            $customer->load('addresses');
+            return [
+                'shipping_address_id' => $customer->addresses->random()->id,
+                'billing_address_id' => $customer->addresses->random()->id,
+            ];
+        });
+    }
 }
