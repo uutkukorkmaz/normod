@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Concerns\BelongsToOrder;
 use App\Enums\PaymentMethod;
 use App\Enums\Statuses\PaymentStatus;
 use App\Utils\Currency;
@@ -11,15 +12,14 @@ use Uutkukorkmaz\LaravelStatuses\Concerns\HasStatus;
 
 class Payment extends Model
 {
+    use BelongsToOrder;
     use HasStatus;
     use HasFactory;
 
     protected $fillable = [
-        'order_id',
         'method',
         'total_amount',
         'currency',
-        'status'
     ];
 
     protected $casts = [

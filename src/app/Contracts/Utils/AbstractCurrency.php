@@ -18,6 +18,10 @@ abstract class AbstractCurrency
         $this->config = config('currency.' . static::getShortName());
     }
 
+    public function getName(): string
+    {
+        return $this->config['name'];
+    }
 
     public function getSymbol(): string
     {
@@ -81,6 +85,13 @@ abstract class AbstractCurrency
     public function isEquals(AbstractCurrency $to): bool
     {
         return $this->getAmount() === $to->convert(static::class)->getAmount();
+    }
+
+    public function multiply($multiplier)
+    {
+        $this->setAmount($this->getAmount() * $multiplier);
+
+        return $this;
     }
 
     public function __toString(): string

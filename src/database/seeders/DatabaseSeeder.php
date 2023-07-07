@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,12 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\Customer::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+         $customer = \App\Models\Customer::factory()->create([
+             'name' => 'Test User',
+             'email' => 'test@example.com',
+             'password' => Hash::make($password = 'password'),
+         ]);
 
         $this->call(CustomerSeeder::class);
         $this->call(AddressSeeder::class);
@@ -27,5 +28,7 @@ class DatabaseSeeder extends Seeder
         $this->call(OrderItemSeeder::class);
         $this->call(PackSeeder::class);
         $this->call(PaymentSeeder::class);
+
+        dump(['TEST_CUSTOMER' => $customer->only('email') + ['password' => $password]]);
     }
 }

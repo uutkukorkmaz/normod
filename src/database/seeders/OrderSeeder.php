@@ -13,8 +13,8 @@ class OrderSeeder extends Seeder
      */
     public function run(): void
     {
-        Customer::inRandomOrder()->get()->each(function ($customer) {
-            $customer->orders()->saveMany(\App\Models\Order::factory(rand(0, 100) < 60 ? rand(1, 10) : 0)->withCustomerAddress($customer)->make());
+        Customer::all()->each(function ($customer) {
+            $customer->orders()->saveMany(\App\Models\Order::factory(rand(1,20))->withCustomerAddress($customer)->make());
         });
     }
 }

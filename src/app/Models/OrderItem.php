@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Concerns\BelongsToOrder;
 use App\Enums\Statuses\OrderStatus;
 use App\Utils\Currency;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,11 +11,12 @@ use Uutkukorkmaz\LaravelStatuses\Concerns\HasStatus;
 
 class OrderItem extends Model
 {
+    use BelongsToOrder;
     use HasStatus;
     use HasFactory;
 
     protected $fillable = [
-        'order_id',
+
         'product_id',
         'pack_id',
         'unit_amount',
@@ -27,15 +29,13 @@ class OrderItem extends Model
         'unit_amount' => Currency::class
     ];
 
-    public function order(){
-        return $this->belongsTo(Order::class);
-    }
-
-    public function product(){
+    public function product()
+    {
         return $this->belongsTo(Product::class);
     }
 
-    public function pack(){
+    public function pack()
+    {
         return $this->belongsTo(Pack::class);
     }
 

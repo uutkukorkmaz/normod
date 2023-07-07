@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
+            $table->id()->startingValue(rand(1000000,9999999));
 
             $table->foreignUuid('customer_id')->constrained('customers')->cascadeOnDelete();
 

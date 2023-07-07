@@ -27,7 +27,7 @@ class OnlyCanAccessOwnedResourcesCriteriaCriteria implements CriteriaInterface
          * DEVELOPER'S NOTE:
          * For demonstration purposes, assuming that bearer token is the customer uuid
          */
-        return $model->where('customer_id', '=', request()->bearerToken());
+        return $model->where('customer_id', '=', request()->user()->id);
     }
 
 }
