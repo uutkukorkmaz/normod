@@ -177,7 +177,8 @@ build: ## Build the project
 	$(call build-containers)
 	$(call ensure-application-built)
 	@$(call warnLine, "Please run \'make migrate\' to migrate the database")
-	@$(call successLine, "Done. You may reach the application at http://localhost:$(NGINX_PORT)")
+	@docker-compose exec php-fpm php ./src/artisan l5-swagger:generate
+	@$(call successLine, "Done. You may reach the application\'s documentation at http://localhost:$(NGINX_PORT)/api/documentation")
 
 define app-health-check
 	@which npm > /dev/null || brew install npm
